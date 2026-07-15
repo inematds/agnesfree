@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgnesFree — Análise profunda da Agnes AI (texto, imagem e vídeo a US$ 0)</title>
+<meta name="description" content="Guia e análise profunda da Agnes AI (Sapiens AI): API multimodal compatível com OpenAI com texto, imagem e vídeo gratuitos — modelos, limites, planos, privacidade e veredito prático.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
+    --txt:#e9e9ee; --mut:#9a9aa6; --amb:#E2A23B; --amb2:#f0c070; --sky:#38bdf8; --pro:#cbd5e1;
+    color-scheme:dark;
+  }
+  body.light{
+    --bg:#f6f7f9; --bg2:#eceef2; --card:#ffffff; --line:#e1e3ea;
+    --txt:#1a1a22; --mut:#5b5b68; --amb:#b9791d; --amb2:#a16207; --sky:#0369a1; --pro:#b45309;
+    color-scheme:light;
+  }
+  body.light .hero .glow{opacity:.5}
+  body.light pre{background:#0e0e14;color:#d6d6e0}
+  body.light pre .c{color:#8a8a98}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Sora,sans-serif;line-height:1.15;margin:0}
+  a{color:var(--amb);text-decoration:none}
+  code,pre{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .mut{color:var(--mut)} .amb{color:var(--amb)}
+  .chip{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);font-weight:600;font-family:Sora}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(12,12,16,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+  nav .brand{display:flex;align-items:center;gap:8px;font-family:Sora;font-weight:800;letter-spacing:-.02em;color:var(--amb)}
+  nav .brand .emoji{font-size:1.25rem}
+  nav .sep{color:var(--mut);opacity:.45}
+  nav .inema{color:var(--sky);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .inema:hover{filter:brightness(1.15)}
+  nav .pro{color:var(--pro);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .pro:hover{filter:brightness(1.15)}
+  nav .clubpro{display:inline-flex;align-items:center;gap:6px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:.92rem}
+  nav .links a.sec{color:var(--mut)} nav .links a.sec:hover{color:var(--txt)}
+  .tgl{background:var(--bg2);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .tgl:hover{border-color:var(--amb)}
+  .btn{display:inline-block;background:var(--amb);color:#1a1206;font-weight:600;padding:.6em 1.05em;border-radius:10px;font-family:Sora}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  @media(max-width:760px){nav .links a.sec{display:none}}
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero .glow{position:absolute;inset:-40% -20% auto auto;width:70%;height:600px;background:radial-gradient(closest-side,rgba(226,162,59,.22),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:74px 22px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.025em}
+  .hero p.lead{font-size:1.18rem;color:var(--mut);margin:1.1em 0 1.6em;max-width:34ch}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .hero figure img{width:100%;display:block}
+  @media(max-width:780px){.hero .wrap{grid-template-columns:1fr;padding:48px 22px}}
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  section .sub{color:var(--mut);margin:.6em 0 2em;max-width:62ch}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:.4em}
+  .card p{color:var(--mut);font-size:.92rem;margin:0}
+  .num{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:8px;background:rgba(226,162,59,.14);color:var(--amb);font-family:Sora;font-weight:800;font-size:.9rem;margin-bottom:.7em}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .flow span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:.45em .9em;font-size:.85rem;font-family:Sora;font-weight:600}
+  .flow .arr{color:var(--amb);border:none;background:none;padding:0 .1em}
+  pre{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.6;color:#d6d6e0}
+  pre .c{color:#6f6f7c} pre .k{color:var(--amb2)} pre .s{color:#9ece6a}
+  .step{display:grid;grid-template-columns:46px 1fr;gap:16px;margin-bottom:26px}
+  .step .b{width:46px;height:46px;border-radius:12px;background:var(--amb);color:#1a1206;font-family:Sora;font-weight:800;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:1.12rem;margin-bottom:.3em}
+  .step p{color:var(--mut);margin:.2em 0 .7em}
+  .phase{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .phase:last-child{border:none}
+  .phase .tag{flex:0 0 92px;font-family:Sora;font-weight:800;color:var(--amb)}
+  .phase .d strong{display:block;margin-bottom:.2em}
+  .phase .d span{color:var(--mut);font-size:.92rem}
+  footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.6em 0 0}
+  th,td{border:1px solid var(--line);padding:.55em .8em;text-align:left}
+  th{background:var(--bg2);font-family:Sora;font-size:.82rem}
+  td.r,th.r{text-align:right}
+  .tw{overflow-x:auto}
+  .ok{color:#9ece6a} .warn{color:#e0af68}
+  ul.tight{margin:.4em 0 0;padding-left:1.2em;color:var(--mut);font-size:.93rem}
+  ul.tight li{margin:.25em 0}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="emoji">🅰️</span> AgnesFree</a>
+  <span class="sep">|</span>
+  <span class="clubpro">
+    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
+    <span class="sep">-</span>
+    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
+  </span>
+  <div class="links">
+    <a class="sec" href="#oque">O que é</a>
+    <a class="sec" href="#modelos">Modelos</a>
+    <a class="sec" href="#limites">Limites</a>
+    <a class="sec" href="#guia">Guia de uso</a>
+    <a class="sec" href="#veredito">Veredito</a>
+    <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
+    <a class="btn" href="https://github.com/inematds/agnesfree" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="chip">Análise profunda · Agnes AI (Sapiens AI)</span>
+      <h1>Texto, imagem e vídeo por <span class="amb">US$ 0</span> — vale a pena?</h1>
+      <p class="lead">API multimodal compatível com o padrão OpenAI, com os modelos principais gratuitos. Aqui está o que é real, o que é limite e o que é risco.</p>
+      <div class="cta">
+        <a class="btn" href="#guia">Começar o guia</a>
+        <a class="btn ghost" href="https://wiki.agnes-ai.com/en/docs/agnes-20-flash" target="_blank" rel="noopener">Docs oficiais</a>
+      </div>
+    </div>
+    <figure><img src="assets/hero.jpg" alt="Agnes AI — texto, imagem, vídeo e agentes 100% gratuitos"></figure>
+  </div>
+</header>
+
+<section id="oque"><div class="wrap">
+  <span class="chip">O que é</span>
+  <h2>Uma API multimodal gratuita — com letras miúdas</h2>
+  <p class="sub">A Agnes AI, da Sapiens AI (Singapura), oferece modelos próprios de texto, visão, imagem e vídeo por uma API compatível com OpenAI. "Gratuito" significa sem cobrança por token ou geração — não uso irrestrito, garantido ou adequado para produção crítica.</p>
+  <div class="grid g3">
+    <div class="card"><h3>💸 Custo excepcional</h3><p>Texto, imagem e vídeo atualmente a US$ 0 — inclusive via API. Uma das ofertas gratuitas mais agressivas de 2026.</p></div>
+    <div class="card"><h3>🔌 Compatível com OpenAI</h3><p>Mesmo formato de chamada dos SDKs OpenAI: integra em n8n, Python, Node, agentes e apps existentes trocando só a base URL e a chave.</p></div>
+    <div class="card"><h3>⚠️ Sem SLA no free</h3><p>Sem garantia de uptime, limites podem mudar, e no plano gratuito seus dados podem treinar os modelos (salvo opt-out). Não use como único fornecedor em sistema crítico.</p></div>
+  </div>
+</div></section>
+
+<section id="modelos"><div class="wrap">
+  <span class="chip">Modelos</span>
+  <h2>Os três modelos principais</h2>
+  <p class="sub">Uma única chave e um único gateway (<code>apihub.agnes-ai.com</code>) para texto/visão, imagens e vídeo.</p>
+  <div class="grid g3">
+    <div class="card"><h3>💬 Agnes 2.0 Flash</h3><p>Texto, visão e agentes. Conversa, raciocínio, código, tool calls, streaming e visão por URL de imagem. Contexto declarado de <strong>512K tokens</strong> (catálogos externos citam 256K — teste antes de mandar contextos enormes). US$ 0 por milhão de tokens.</p>
+<pre><span class="k">POST</span> <span class="s">https://apihub.agnes-ai.com/v1/chat/completions</span>
+model: <span class="s">agnes-2.0-flash</span></pre></div>
+    <div class="card"><h3>🖼️ Agnes Image 2.1 Flash</h3><p>Texto→imagem, imagem→imagem, redesenho, edição por instrução, retorno em URL ou Base64, resoluções de 1K a 4K nas proporções 1:1, 16:9, 9:16, 4:3, 3:4, 2:3, 3:2 e 21:9. US$ 0 por imagem.</p>
+<pre><span class="k">POST</span> <span class="s">https://apihub.agnes-ai.com/v1/images/generations</span>
+model: <span class="s">agnes-image-2.1-flash</span></pre></div>
+    <div class="card"><h3>🎬 Agnes Video V2.0</h3><p>Texto→vídeo, imagem→vídeo, keyframes, controle de câmera/movimento por prompt, 480p/720p/1080p, geração assíncrona. Até 441 frames por pedido (fórmula <code>8n+1</code>). US$ 0 por segundo.</p>
+<pre><span class="k">POST</span> <span class="s">https://apihub.agnes-ai.com/v1/videos</span>
+<span class="k">GET</span>  <span class="s">.../agnesapi?video_id=ID</span></pre></div>
+  </div>
+  <div class="tw">
+  <table>
+    <tr><th>Proporção</th><th class="r">1K</th><th class="r">2K</th><th class="r">3K</th><th class="r">4K</th></tr>
+    <tr><td>1:1</td><td class="r">1024×1024</td><td class="r">2048×2048</td><td class="r">3072×3072</td><td class="r">4096×4096</td></tr>
+    <tr><td>16:9</td><td class="r">1312×736</td><td class="r">2624×1472</td><td class="r">3936×2208</td><td class="r">5248×2944</td></tr>
+    <tr><td>9:16</td><td class="r">736×1312</td><td class="r">1472×2624</td><td class="r">2208×3936</td><td class="r">2944×5248</td></tr>
+    <tr><td>4:3</td><td class="r">1152×864</td><td class="r">2304×1728</td><td class="r">3456×2592</td><td class="r">4608×3456</td></tr>
+    <tr><td>3:4</td><td class="r">864×1152</td><td class="r">1728×2304</td><td class="r">2592×3456</td><td class="r">3456×4608</td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:1em">Dimensões fora da tabela (ex.: 1920×1080) podem ser convertidas automaticamente. Para thumbnail de YouTube: peça <code>"size":"2K","ratio":"16:9"</code> e redimensione para 1920×1080.</p>
+</div></section>
+
+<section id="fluxo"><div class="wrap">
+  <span class="chip">Como funciona</span>
+  <h2>Integração em minutos, arquitetura em camadas</h2>
+  <p class="sub">Como a API é compatível com OpenAI, o caminho é o de sempre — e a arquitetura mais segura usa a Agnes como camada gratuita de alto volume, nunca como cérebro único.</p>
+  <div class="flow">
+    <span>Criar conta + chave</span><span class="arr">→</span>
+    <span>Apontar SDK p/ apihub.agnes-ai.com</span><span class="arr">→</span>
+    <span>Chamar texto / imagem / vídeo</span><span class="arr">→</span>
+    <span>Fallback p/ outro fornecedor</span>
+  </div>
+  <div class="grid g3" style="margin-top:26px">
+    <div class="card"><h3>🅰️ Camada Agnes</h3><p>Tarefas gratuitas e de alto volume: thumbnails em lote, resumos, classificação, agentes de teste, vídeos experimentais.</p></div>
+    <div class="card"><h3>🔁 Segunda opção</h3><p>Gemini / GLM / DeepSeek como rota alternativa quando a Agnes estiver indisponível ou limitada.</p></div>
+    <div class="card"><h3>🧠 Tarefas críticas</h3><p>OpenAI / Claude para o que exige qualidade previsível, SLA e validação ampla.</p></div>
+  </div>
+</div></section>
+
+<section id="limites"><div class="wrap">
+  <span class="chip">Limites &amp; planos</span>
+  <h2>O que o gratuito dá — e o que o pago compra</h2>
+  <p class="sub">O free é divulgado como gratuito por tempo indeterminado, mas sem garantia contratual: disponibilidade, cotas e políticas podem mudar. Os planos pagos compram principalmente velocidade e prioridade, não "uso ilimitado".</p>
+  <div class="grid g2">
+    <div class="card"><h3>🆓 Plano gratuito</h3>
+      <div class="tw"><table>
+        <tr><th>Recurso</th><th class="r">Limite efetivo</th></tr>
+        <tr><td>Texto</td><td class="r">20 req/min</td></tr>
+        <tr><td>Imagens 1K</td><td class="r">20 img/min</td></tr>
+        <tr><td>Imagens 2K</td><td class="r">10 img/min</td></tr>
+        <tr><td>Imagens 3K / 4K</td><td class="r">1 img/min</td></tr>
+        <tr><td>Vídeo</td><td class="r">1 req/min</td></tr>
+      </table></div>
+      <p style="margin-top:.8em">Teoricamente 28.800 chamadas de texto/dia e 1.200 imagens 1K/hora — mas filas, fair use e capacidade reduzem o volume real. Sem SLA.</p></div>
+    <div class="card"><h3>💳 Token Plans (pagos)</h3>
+      <div class="tw"><table>
+        <tr><th>Plano</th><th class="r">Preço/mês*</th><th class="r">Texto / 5h</th><th class="r">Texto / semana</th></tr>
+        <tr><td>Starter</td><td class="r">US$ 4</td><td class="r">1.500</td><td class="r">15.000</td></tr>
+        <tr><td>Plus</td><td class="r">US$ 10</td><td class="r">7.500</td><td class="r">75.000</td></tr>
+        <tr><td>Pro</td><td class="r">US$ 50</td><td class="r">30.000</td><td class="r">300.000</td></tr>
+      </table></div>
+      <p style="margin-top:.8em">Todos os Token Plans: até 1.000 RPM em texto, 4.000 imagens/dia, 500 s de vídeo/dia, 100 RPM (1K) / 80 RPM (2K) em imagem, 5 RPM em vídeo. *Preços vistos em fonte da comunidade — confirme no checkout. Detalhe estranho: o pago aumenta a velocidade, mas introduz cotas temporais explícitas que o free não publica.</p></div>
+  </div>
+  <p class="sub" style="margin-top:1.4em">Dá pra <strong>combinar</strong>: chave gratuita + chave Token Plan usam pools separados — esgotou o pago, a chave free continua valendo nos limites free. Criar várias chaves da mesma categoria <em>não</em> multiplica limites (compartilham o mesmo pool).</p>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <span class="chip">Guia de uso · passo a passo</span>
+  <h2>Da chave à primeira geração</h2>
+  <p class="sub">Tudo pelo endpoint compatível com OpenAI. Troque <code>$AGNES_API_KEY</code> pela sua chave.</p>
+
+  <div class="step"><div class="b">1</div><div>
+    <h3>Crie a conta e a chave de API</h3>
+    <p>Cadastre-se na Agnes AI e gere uma chave gratuita. Guarde-a como variável de ambiente — nunca no código.</p>
+<pre><span class="k">export</span> AGNES_API_KEY=<span class="s">"sua-chave-aqui"</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <h3>Texto e agentes — Agnes 2.0 Flash</h3>
+    <p>Chat completions no formato OpenAI, com streaming e tool calls.</p>
+<pre><span class="k">curl</span> <span class="s">https://apihub.agnes-ai.com/v1/chat/completions</span> \
+  -H <span class="s">"Authorization: Bearer $AGNES_API_KEY"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{"model":"agnes-2.0-flash","messages":[{"role":"user","content":"Resuma o que é a Agnes AI em 3 frases."}]}'</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <h3>Ou use o SDK OpenAI apontando pro gateway</h3>
+    <p>Em Python (ou Node), basta trocar <code>base_url</code> — o resto do código não muda.</p>
+<pre><span class="c"># pip install openai</span>
+<span class="k">from</span> openai <span class="k">import</span> OpenAI
+client = OpenAI(base_url=<span class="s">"https://apihub.agnes-ai.com/v1"</span>, api_key=<span class="s">"$AGNES_API_KEY"</span>)
+r = client.chat.completions.create(model=<span class="s">"agnes-2.0-flash"</span>,
+    messages=[{<span class="s">"role"</span>:<span class="s">"user"</span>,<span class="s">"content"</span>:<span class="s">"Olá!"</span>}])
+<span class="k">print</span>(r.choices[0].message.content)</pre>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <h3>Imagens — Agnes Image 2.1 Flash</h3>
+    <p>Ex.: thumbnail 16:9 em 2K (depois redimensione para 1920×1080).</p>
+<pre><span class="k">curl</span> <span class="s">https://apihub.agnes-ai.com/v1/images/generations</span> \
+  -H <span class="s">"Authorization: Bearer $AGNES_API_KEY"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{"model":"agnes-image-2.1-flash","prompt":"thumbnail de YouTube sobre IA gratuita, estilo tech dark","size":"2K","ratio":"16:9"}'</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">5</div><div>
+    <h3>Vídeo — Agnes Video V2.0 (assíncrono)</h3>
+    <p>Cria o job, recebe um <code>video_id</code> e consulta até ficar pronto. Frames seguem a fórmula <code>8n+1</code> (máx. 441).</p>
+<pre><span class="c"># criar</span>
+<span class="k">curl</span> <span class="s">https://apihub.agnes-ai.com/v1/videos</span> \
+  -H <span class="s">"Authorization: Bearer $AGNES_API_KEY"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{"model":"agnes-video-v2.0","prompt":"drone sobrevoando cidade futurista ao entardecer","resolution":"720p"}'</span>
+
+<span class="c"># consultar o resultado</span>
+<span class="k">curl</span> <span class="s">"https://apihub.agnes-ai.com/agnesapi?video_id=SEU_ID"</span> \
+  -H <span class="s">"Authorization: Bearer $AGNES_API_KEY"</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">6</div><div>
+    <h3>Faça o opt-out de treinamento (importante!)</h3>
+    <p>No plano gratuito, prompts e arquivos podem ser usados para treinar os modelos, salvo opt-out — disponível dentro do serviço ou pelo suporte. Nunca envie dados sensíveis (CPF, pacientes, contratos, chaves, dados LGPD) pelo free.</p>
+<pre><span class="c"># canal de suporte para exclusão do uso em treinamento</span>
+support@agnes-ai.com</pre>
+  </div></div>
+</div></section>
+
+<section id="desempenho"><div class="wrap">
+  <span class="chip">Desempenho</span>
+  <h2>O que os números dizem (e o que não dizem)</h2>
+  <p class="sub">A evidência é boa em agentes e razoável em imagem; em vídeo, o modelo fica longe dos líderes. Faltam benchmarks amplos e independentes de texto (SWE-bench, GPQA, MMLU-Pro etc.).</p>
+  <div class="grid g3">
+    <div class="card"><h3>🤖 Texto/agentes</h3><p><strong>Claw-Eval: Pass³ 60,9% — 9º lugar</strong> (líder do snapshot: Claude Opus 4.6 com 70,4%). Benchmark legítimo de 300 tarefas reais verificadas por humanos. Competitivo, mas não líder — e um único benchmark não prova superioridade geral em código, português, matemática ou factualidade.</p></div>
+    <div class="card"><h3>🖼️ Imagem</h3><p>~1.178–1.184 Elo em avaliações de edição: funcional e competitivo. Ótimo para alternativas de thumbnail, banners, fundos e testes A/B; para peças premium (mãos, tipografia, logotipo exato), revise ou finalize em modelo mais forte.</p></div>
+    <div class="card"><h3>🎬 Vídeo</h3><p>Posições ~61 (T2V) e ~63 (I2V) nos rankings — abaixo dos líderes em realismo e movimento complexo. Antes do free, custava ~US$ 0,30/min em gateways. A US$ 0, compensa testar intensamente para cenas de apoio e volume.</p></div>
+  </div>
+</div></section>
+
+<section id="veredito"><div class="wrap">
+  <span class="chip">Veredito</span>
+  <h2>Vale a pena? Sim — com fallback</h2>
+  <p class="sub">A oferta é forte demais para ignorar em testes, conteúdo, agentes e automações não críticas. Mas não como fornecedor único de sistema comercial crítico.</p>
+  <div class="grid g2">
+    <div class="card"><h3 class="ok">✅ Onde usar</h3>
+      <ul class="tight">
+        <li>Thumbnails em lote, imagens de cursos e blog;</li>
+        <li>Protótipos, testes de agentes, automações n8n;</li>
+        <li>Resumos, classificação, fallback gratuito de outras APIs;</li>
+        <li>Vídeos experimentais e cenas de apoio;</li>
+        <li>Aplicações gratuitas do INEMA.club e tarefas internas sem dados confidenciais.</li>
+      </ul></div>
+    <div class="card"><h3 class="warn">🚫 Onde evitar depender só dela</h3>
+      <ul class="tight">
+        <li>Atendimento médico/odontológico, financeiro, jurídico;</li>
+        <li>Dados pessoais protegidos (LGPD) no plano free;</li>
+        <li>Aplicações com SLA e agentes que não podem cair;</li>
+        <li>Geração em que a qualidade final precisa ser previsível;</li>
+        <li>Sistemas comerciais sem fallback.</li>
+      </ul></div>
+  </div>
+  <div style="margin-top:22px">
+<pre>Aplicação
+   ↓
+Roteador de modelos
+   ├── Agnes AI: tarefas gratuitas e alto volume
+   ├── Gemini/GLM/DeepSeek: segunda opção
+   └── OpenAI/Claude: tarefas críticas ou complexas</pre>
+  </div>
+  <div style="margin-top:26px">
+    <div class="phase"><div class="tag">FORTE</div><div class="d"><strong>Custo, compatibilidade e multimodalidade</strong><span>US$ 0 em três modalidades, padrão OpenAI, contexto 512K, 20 RPM grátis em texto e imagem 1K, imagem até 4K, bom resultado em agentes (Claw-Eval).</span></div></div>
+    <div class="phase"><div class="tag">FRACO</div><div class="d"><strong>Validação, SLA e continuidade</strong><span>Poucos benchmarks independentes, vídeo abaixo dos líderes, free sem SLA, dados do free treinam modelos (salvo opt-out), preço promocional sem garantia, empresa nova, docs com inconsistências (256K vs 512K; 30 vs 20 RPM).</span></div></div>
+    <div class="phase"><div class="tag">REGRA</div><div class="d"><strong>Camada gratuita de alta capacidade — nunca cérebro único</strong><span>Use a Agnes para volume e experimentos, com roteador de modelos e fallback para Gemini/GLM/DeepSeek e OpenAI/Claude nas tarefas críticas.</span></div></div>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="pill">agnes-2.0-flash</div><div class="pill">agnes-image-2.1-flash</div><div class="pill">agnes-video-v2.0</div><div class="pill">API compatível OpenAI</div>
+    <p style="margin-top:18px">AgnesFree · análise independente — não afiliado à Sapiens AI · preços e limites de jul/2026, sujeitos a mudança ·
+      <a href="https://github.com/inematds/agnesfree">inematds/agnesfree</a> ·
+      <a href="https://inema.club">INEMA.CLUB</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var KEY='agnesfree-theme';
+    var b=document.body, t=document.getElementById('themeToggle');
+    if(localStorage.getItem(KEY)==='light'){ b.classList.add('light'); t.textContent='☀️'; }
+    t.addEventListener('click',function(){
+      var light=b.classList.toggle('light');
+      t.textContent=light?'☀️':'🌙';
+      localStorage.setItem(KEY, light?'light':'dark');
+    });
+  })();
+</script>
+</body>
+</html>
