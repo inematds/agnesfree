@@ -4,4 +4,6 @@ Análise profunda da **Agnes AI** (Sapiens AI): API multimodal compatível com O
 
 **Guia completo:** https://inematds.github.io/agnesfree/guia/
 
+**Testar / conhecer a Agnes AI (campanha oficial):** https://agnes-ai.com/campaign
+
 Parte do ecossistema [INEMA.CLUB](https://inema.club).
