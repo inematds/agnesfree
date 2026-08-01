@@ -109,6 +109,7 @@
     <a class="sec" href="#modelos">Modelos</a>
     <a class="sec" href="#limites">Limites</a>
     <a class="sec" href="#guia">Guia de uso</a>
+    <a class="sec" href="#dicas">Dicas</a>
     <a class="sec" href="#veredito">Veredito</a>
     <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
     <a class="btn" href="https://github.com/inematds/agnesfree" target="_blank" rel="noopener">GitHub</a>
@@ -275,6 +276,29 @@ r = client.chat.completions.create(model=<span class="s">"agnes-2.0-flash"</span
     <p>No plano gratuito, prompts e arquivos podem ser usados para treinar os modelos, salvo opt-out — disponível dentro do serviço ou pelo suporte. Nunca envie dados sensíveis (CPF, pacientes, contratos, chaves, dados LGPD) pelo free.</p>
 <pre><span class="c"># canal de suporte para exclusão do uso em treinamento</span>
 support@agnes-ai.com</pre>
+  </div></div>
+</div></section>
+
+<section id="dicas"><div class="wrap">
+  <span class="chip">Dicas · medido em teste real</span>
+  <h2>As 6 regras que valem dinheiro</h2>
+  <p class="sub">Não é teoria: saiu de ~70 chamadas reais à API, comparando o que a documentação <strong>promete</strong> com o que foi <strong>observado</strong>. O registro completo — parâmetros aceitos, os que derrubam com HTTP 400, cota, custo e pontos em aberto — está em <a href="https://github.com/inematds/agnesfree/blob/master/NOTAS-API.md" target="_blank" rel="noopener"><code>NOTAS-API.md</code></a>.</p>
+  <div class="grid g3">
+    <div class="card"><h3>🇬🇧 Prompts em inglês</h3><p>Não é questão de qualidade (empatada) — é o <strong>filtro de conteúdo</strong>: em português ele trava geração legítima com HTTP 400. Escreva o prompt em inglês, mesmo para conteúdo em PT.</p></div>
+    <div class="card"><h3>🦊 Peça <em>uma</em> cauda</h3><p>Qualquer animal com cauda em pose frontal sai com <strong>duas</strong>. O conserto é explicitar no prompt: <code>ONE SINGLE bushy tail</code>. Vale para o padrão geral — o que você não fixa, o modelo duplica.</p></div>
+    <div class="card"><h3>🔁 Retry com backoff é obrigatório</h3><p>Cerca de <strong>34% das chamadas falham com 503</strong> — e o retry recupera praticamente 100%. Sem retry você conclui, errado, que a API "não funciona".</p></div>
+    <div class="card"><h3>🎨 Estilo só com estética</h3><p>Descritores como <code>fur</code>, <code>expressive eyes</code> ou <code>children's book</code> <strong>injetam personagens</strong> num prompt que era só de cenário. No descritor de estilo, use apenas termos estéticos.</p></div>
+    <div class="card"><h3>📐 1K para volume</h3><p>1K leva ~32s; <strong>4K leva ~153s e falha muito mais</strong>. Resolução não custa nada a mais (é tudo US$ 0), mas custa tempo e taxa de erro — gere em 1K quando o volume importa.</p></div>
+    <div class="card"><h3>⬇️ Baixe o PNG na hora</h3><p>A URL de retorno é <strong>temporária</strong>. Salve o arquivo no mesmo passo da geração; não guarde o link achando que dá para buscar depois.</p></div>
+  </div>
+
+  <div class="step"><div class="b">⚠️</div><div>
+    <h3>Duas armadilhas que dão HTTP 200 mentindo</h3>
+    <p><code>response_format</code> no nível raiz do JSON retorna <strong>HTTP 400</strong> — ele só funciona dentro de <code>extra_body</code>. Pior: <strong>parâmetros desconhecidos são descartados em silêncio</strong> (o gateway usa <code>drop_params</code>), então um <code>200 OK</code> <em>não</em> prova que o seu parâmetro foi usado. E não existe <code>seed</code> nem fine-tune/LoRA.</p>
+<pre><span class="k">curl</span> <span class="s">https://apihub.agnes-ai.com/v1/images/generations</span> \
+  -H <span class="s">"Authorization: Bearer $AGNES_API_KEY"</span> -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{"model":"agnes-image-2.1-flash","prompt":"...","size":"1K","ratio":"16:9",
+       "extra_body":{"response_format":"url"}}'</span></pre>
   </div></div>
 </div></section>
 
