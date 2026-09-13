@@ -252,6 +252,13 @@ distorção. A doc avisa que normaliza para o tier mais próximo (480p/720p/1080
 
 ---
 
+### 6.6 ⚠️ Engasgo intermitente da API (medido 2026-08-25/26/27 e 2026-09-13)
+De vez em quando um `POST /v1/videos` ou o `GET` de status **conecta e fica mais de 120 s sem devolver um byte**. No Python isso sobe como `TimeoutError: The read operation timed out` (timeout de LEITURA — só o de conexão vira `URLError`); numa das vezes foi `_ssl.c: The handshake operation timed out`.
+- **Não é** 503 `video_queue_full`, não é 429, não é task perdida: no mesmo minuto `GET /v1/models` responde 200 em 0,6–0,8 s, e a API volta sozinha em poucos minutos.
+- Não aparece na doc oficial nem em mensagem de erro da API — só se vê no cliente.
+- **Tratamento:** repetir com backoff (2/4/8 s), e se persistir esperar 30–60 s e insistir dentro do teto de polling. Uma task já aceita continua processando no servidor; abortar joga o vídeo fora.
+- Custou 5 clipes no musicavideo (MVD#103, #119, #122, #174, #175) até virar retry em `providers/base.py` + `providers/agnes.py` (2026-09-13).
+
 ## 7. Modelos disponíveis (`GET /v1/models`) ✅
 `agnes-image-2.1-flash` · `agnes-image-2.0-flash` * · `agnes-2.0-flash` · `agnes-1.5-flash` * · `agnes-video-v2.0`
 \* fora do guia INEMA. ❓ nenhum dos dois testado.
